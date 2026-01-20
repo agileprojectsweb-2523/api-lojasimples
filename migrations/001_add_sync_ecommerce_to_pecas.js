@@ -10,6 +10,13 @@ async function migrate() {
         const tableName = 'pecas';
         const columnName = 'sync_ecommerce';
 
+        // Check if table exists first to avoid "No description found" error on fresh install
+        const tableExists = await queryInterface.tableExists(tableName);
+        if (!tableExists) {
+            console.log(`Table "${tableName}" does not exist. Skipping migration. Table will be created by Sequelize sync.`);
+            return;
+        }
+
         // Check if column exists
         const tableDesc = await queryInterface.describeTable(tableName);
         if (!tableDesc[columnName]) {
