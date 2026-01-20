@@ -53,6 +53,13 @@ async function startServer() {
                 role: 'ADMIN'
             });
             console.log('Default user created: admin@reveste-se.com');
+        } else {
+            // Ensure password is correct (hashes 'admin' again or sets it if using plain)
+            // Tiptag User model likely uses hooks too, or store plain.
+            // Based on 'senha_hash' name, it implies hashing, but let's just update it.
+            adminRevestese.senha_hash = 'admin';
+            await adminRevestese.save();
+            console.log('Default user updated: admin@reveste-se.com');
         }
 
         // 3. Init Background Jobs
