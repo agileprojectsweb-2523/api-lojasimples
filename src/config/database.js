@@ -27,8 +27,15 @@ module.exports = {
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
     host: process.env.DB_HOST,
+    port: process.env.DB_PORT || 5432, // Ensure port is used
     dialect: 'postgres',
     logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false // Required for self-signed certs (common in Easypanel/Heroku)
+      }
+    },
     define: {
       timestamps: true,
       underscored: true,
