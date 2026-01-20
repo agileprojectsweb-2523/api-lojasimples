@@ -1,6 +1,8 @@
 require('dotenv').config();
 const app = require('./src/app');
+const app = require('./src/app');
 const { sequelize } = require('./src/models');
+const bcrypt = require('bcryptjs');
 const cronService = require('./src/jobs/cron');
 const queueWorker = require('./src/jobs/queue.worker');
 const syncJob = require('./src/jobs/sync.job');
