@@ -1,6 +1,5 @@
 require('dotenv').config();
 const app = require('./src/app');
-const app = require('./src/app');
 const { sequelize } = require('./src/models');
 const bcrypt = require('bcryptjs');
 const cronService = require('./src/jobs/cron');
@@ -57,11 +56,11 @@ async function startServer() {
             console.log('Default user created: admin@reveste-se.com');
         } else {
             // Ensure password is correct (hashes 'admin' again or sets it if using plain)
-            // Tiptag User model likely uses hooks too, or store plain.
-            // Based on 'senha_hash' name, it implies hashing, but let's just update it.
-            adminRevestese.senha_hash = 'admin';
+            // Manual hash to be 100% sure
+            const hashedPassword = await bcrypt.hash('admin', 10);
+            adminRevestese.senha_hash = hashedPassword;
             await adminRevestese.save();
-            console.log('Default user updated: admin@reveste-se.com');
+            console.log('Default user updated: admin@reveste-se.com (Force Hash)');
         }
 
         // 3. Init Background Jobs
